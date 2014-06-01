@@ -483,11 +483,12 @@ namespace MoreAdminCommands
 
                 var player = Utils.GetPlayers(args.Player.Index);
 
+                player.isGhost = !player.isGhost;
+
                 args.Player.SendSuccessMessage("Ghost mode {0}tivated", player.isGhost ? "ac" : "deac");
 
-                TSPlayer.All.SendInfoMessage("{0} {1}", args.Player.Name, player.isGhost ? "left." : "has joined.");
+                TSPlayer.All.SendInfoMessage("{0} {1}", args.Player.Name, player.isGhost ? "has left." : "has joined.");
 
-                player.isGhost = !player.isGhost;
                 args.Player.TPlayer.position.X = 0;
                 args.Player.TPlayer.position.Y = 0;
                 MAC.cansend = true;
@@ -540,6 +541,8 @@ namespace MoreAdminCommands
                     args.Player.SendSuccessMessage("Ghost mode {0}tivated for {1}.", Mplayer.isGhost ? "ac" : "deac", Mplayer.name);
 
                     Player.SendInfoMessage("{0} has {1}tivated ghost mode on you", args.Player.Name, Mplayer.isGhost ? "ac" : "deac");
+
+                    TSPlayer.All.SendInfoMessage("{0} {1}", args.Player.Name, Mplayer.isGhost ? "has left." : "has joined.");
                     
                     Player.TPlayer.position.X = 0;
                     Player.TPlayer.position.Y = 0;
