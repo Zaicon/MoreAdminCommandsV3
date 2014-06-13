@@ -542,7 +542,7 @@ namespace MoreAdminCommands
 
                     Player.SendInfoMessage("{0} has {1}tivated ghost mode on you", args.Player.Name, Mplayer.isGhost ? "ac" : "deac");
 
-                    TSPlayer.All.SendInfoMessage("{0} {1}", args.Player.Name, Mplayer.isGhost ? "has left." : "has joined.");
+                    TSPlayer.All.SendInfoMessage("{0} {1}", Mplayer.name, Mplayer.isGhost ? "has left." : "has joined.");
                     
                     Player.TPlayer.position.X = 0;
                     Player.TPlayer.position.Y = 0;
