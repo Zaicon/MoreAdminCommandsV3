@@ -1068,7 +1068,7 @@ namespace MoreAdminCommands
         #endregion
 
         #region Disable
-        public static void Disable(CommandArgs args)
+        /*public static void Disable(CommandArgs args)
         {
             if (args.Parameters.Count < 1)
             {
@@ -1098,7 +1098,7 @@ namespace MoreAdminCommands
                 args.Player.SendSuccessMessage(string.Format("{0}abled {1}!", player.isDisabled ? "Dis" : "En", player.name));
                 foundplr[0].SendMessage(string.Format("{0} {1}abled you!", args.Player.Name, player.isDisabled ? "dis" : "en"), Color.Red);
             }
-        }
+        }*/
         #endregion
 
 

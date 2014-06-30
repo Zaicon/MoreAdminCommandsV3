@@ -136,7 +136,7 @@ namespace MoreAdminCommands
             Commands.ChatCommands.Add(new Command(Cmds.TeamUnlock, "teamunlock"));
             Commands.ChatCommands.Add(new Command("mac.permabuff", Cmds.Permabuff, "permabuff", "pb"));
             Commands.ChatCommands.Add(new Command("mac.permabuff", Cmds.permDebuff, "permadebuff", "pdb"));
-            Commands.ChatCommands.Add(new Command("mac.disable", Cmds.Disable, "disable"));
+            //Commands.ChatCommands.Add(new Command("mac.disable", Cmds.Disable, "disable"));
             #endregion
 
             Utils.SetUpConfig();
