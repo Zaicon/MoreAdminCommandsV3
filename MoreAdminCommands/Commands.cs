@@ -1118,7 +1118,7 @@ namespace MoreAdminCommands
             int killcount = 0;
             for (int i = 0; i < Main.npc.Length; i++)
             {
-                if ((Main.npc[i].active &&
+                if ((Main.npc[i].active && !Main.npc[i].friendly &&
                     Utils.getDistance(args.Player.TPlayer.position, Main.npc[i].position, nearby)))
                 {
                     TSPlayer.Server.StrikeNPC(i, 99999, 1f, 1);
