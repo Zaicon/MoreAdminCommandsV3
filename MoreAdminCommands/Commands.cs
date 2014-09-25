@@ -489,11 +489,16 @@ namespace MoreAdminCommands
 
                 TSPlayer.All.SendInfoMessage("{0} {1}", args.Player.Name, player.isGhost ? "has left." : "has joined.");
 
+                float tempx = args.Player.TPlayer.position.X;
+                float tempy = args.Player.TPlayer.position.Y;
                 args.Player.TPlayer.position.X = 0;
                 args.Player.TPlayer.position.Y = 0;
                 MAC.cansend = true;
                 NetMessage.SendData(13, -1, -1, "", args.Player.Index);
                 MAC.cansend = false;
+                //This is for SSC-enabled servers.
+                args.Player.TPlayer.position.X = tempx;
+                args.Player.TPlayer.position.Y = tempy;
             }
             else
             {
@@ -544,11 +549,16 @@ namespace MoreAdminCommands
 
                     TSPlayer.All.SendInfoMessage("{0} {1}", Mplayer.name, Mplayer.isGhost ? "has left." : "has joined.");
                     
+                    float tempx = Player.TPlayer.position.X;
+                    float tempy = Player.TPlayer.position.Y;
                     Player.TPlayer.position.X = 0;
                     Player.TPlayer.position.Y = 0;
                     MAC.cansend = true;
                     NetMessage.SendData(13, -1, -1, "", Player.Index);
                     MAC.cansend = false;
+                    //This is for SSC-enabled servers.
+                    Player.TPlayer.position.X = tempx;
+                    Player.TPlayer.position.Y = tempy;
                 }
             }
         }
