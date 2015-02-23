@@ -1,19 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
-using MySql.Data.MySqlClient;
 using Terraria;
-using TerrariaApi;
 using TerrariaApi.Server;
 using TShockAPI;
 using TShockAPI.DB;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Net;
-using System.Linq;
-using System.Threading;
 
 namespace MoreAdminCommands
 {
@@ -112,15 +105,11 @@ namespace MoreAdminCommands
             #region Commands
             Commands.ChatCommands.Add(new Command("mac.kill", Cmds.KillAll, "killall", "kill*"));
             Commands.ChatCommands.Add(new Command("mac.kill", Cmds.AutoKill, "autokill"));
-            Commands.ChatCommands.Add(new Command("mac.mute", Cmds.PermaMute, "permamute"));
             Commands.ChatCommands.Add(new Command("mac.mute", Cmds.MuteAll, "muteall"));
             Commands.ChatCommands.Add(new Command("mac.spawn", Cmds.SpawnMobPlayer, "spawnmobplayer", "smp"));
             Commands.ChatCommands.Add(new Command("mac.spawn", Cmds.SpawnGroup, "spawngroup", "sg"));
             Commands.ChatCommands.Add(new Command("mac.spawn", Cmds.SpawnByMe, "spawnbyme", "sbm"));
             Commands.ChatCommands.Add(new Command("mac.search", Cmds.FindPerms, "findperm", "fperm"));
-            Commands.ChatCommands.Add(new Command("mac.search", Cmds.FindCommand, "findcommand", "findcmd", "fcmd"));
-            Commands.ChatCommands.Add(new Command("mac.search", Cmds.FindItem, "finditem", "fitem"));
-            Commands.ChatCommands.Add(new Command("mac.search", Cmds.FindMob, "findmob", "fmob"));
             Commands.ChatCommands.Add(new Command("mac.butcher", Cmds.ButcherAll, "butcherall", "butcher*"));
             Commands.ChatCommands.Add(new Command("mac.butcher", Cmds.ButcherFriendly, "butcherfriendly", "butcherf"));
             Commands.ChatCommands.Add(new Command("mac.butcher", Cmds.ButcherNPC, "butchernpc"));
@@ -134,9 +123,6 @@ namespace MoreAdminCommands
             Commands.ChatCommands.Add(new Command("mac.reload", Cmds.ReloadMore, "reloadmore"));
             Commands.ChatCommands.Add(new Command("mac.freeze", Cmds.FreezeTime, "freezetime", "ft"));
             Commands.ChatCommands.Add(new Command(Cmds.TeamUnlock, "teamunlock"));
-            Commands.ChatCommands.Add(new Command("mac.permabuff", Cmds.Permabuff, "permabuff", "pb"));
-            Commands.ChatCommands.Add(new Command("mac.permabuff", Cmds.permDebuff, "permadebuff", "pdb"));
-            //Commands.ChatCommands.Add(new Command("mac.disable", Cmds.Disable, "disable"));
             #endregion
 
             Utils.SetUpConfig();
