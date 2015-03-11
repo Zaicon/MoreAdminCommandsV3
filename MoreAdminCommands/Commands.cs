@@ -28,7 +28,7 @@ namespace MoreAdminCommands
             }
             else
             {
-                args.Player.SendErrorMessage("Invalid syntax. Try /findperm [command]");
+				args.Player.SendErrorMessage("Invalid syntax. Try {0}findperm [command]", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
             }
         }
         #endregion
@@ -68,7 +68,7 @@ namespace MoreAdminCommands
                         args.Player.SendErrorMessage("You cannot autokill this player!");
             }
             else
-                args.Player.SendErrorMessage("Invalid syntax: /autokill <playerName>");
+				args.Player.SendErrorMessage("Invalid syntax: {0}autokill <playerName>", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
         }
         #endregion
 
@@ -156,7 +156,7 @@ namespace MoreAdminCommands
             }
             else
             {
-                args.Player.SendErrorMessage("Improper Syntax. Proper Syntax: /teamunlock <teamcolor> <password>");
+				args.Player.SendErrorMessage("Improper Syntax. Proper Syntax: {0}teamunlock <teamcolor> <password>", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
             }
         }
         #endregion
@@ -171,13 +171,15 @@ namespace MoreAdminCommands
 
             if (MAC.timeFrozen)
             {
-                TSPlayer.All.SendInfoMessage(args.Player.Name.ToString() + " froze time.");
+				if (!args.Silent)
+					TSPlayer.All.SendInfoMessage(args.Player.Name.ToString() + " froze time.");
                 if (!updateTimers.timeTimer.Enabled)
                     updateTimers.timeTimer.Enabled = true;
             }
             else
             {
-                TSPlayer.All.SendInfoMessage(args.Player.Name.ToString() + " unfroze time.");
+				if (!args.Silent)
+					TSPlayer.All.SendInfoMessage(args.Player.Name.ToString() + " unfroze time.");
                 if (updateTimers.timeTimer.Enabled)
                     updateTimers.timeTimer.Enabled = false;
             }
@@ -189,8 +191,7 @@ namespace MoreAdminCommands
         {
             if (args.Parameters.Count < 2)
             {
-                args.Player.SendErrorMessage(
-                    "Invalid syntax! Proper syntax: /forcegive <item type/id> <player> [item amount] [prefix id/name]");
+				args.Player.SendErrorMessage("Invalid syntax! Proper syntax: {0}forcegive <item type/id> <player> [item amount] [prefix id/name]", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
                 return;
             }
             if (string.IsNullOrEmpty(args.Parameters[0]))
@@ -226,7 +227,7 @@ namespace MoreAdminCommands
             }
             else if (items.Count > 1)
             {
-                args.Player.SendErrorMessage(string.Format("More than one ({0}) item matched!", items.Count));
+				TShock.Utils.SendMultipleMatchError(args.Player, items.Select(p => p.name));
             }
             else
             {
@@ -240,7 +241,7 @@ namespace MoreAdminCommands
                     }
                     else if (players.Count > 1)
                     {
-                        TShock.Utils.SendMultipleMatchError(args.Player, players);
+                        TShock.Utils.SendMultipleMatchError(args.Player, players.Select(p => p.Name));
                     }
                     else
                     {
@@ -284,17 +285,11 @@ namespace MoreAdminCommands
 
                 if (findPlayers.Count > 1)
                 {
-                    List<string> foundPlayers = new List<string>();
-                    foreach (TSPlayer player in findPlayers)
-                    {
-                        foundPlayers.Add(player.Name);
-                    }
-
-                    TShock.Utils.SendMultipleMatchError(args.Player, foundPlayers);
+                    TShock.Utils.SendMultipleMatchError(args.Player, findPlayers.Select(p => p.Name));
                 }
                 else if (findPlayers.Count == 0)
                 {
-                    args.Player.SendErrorMessage(findPlayers.Count + " players matched.");
+                    args.Player.SendErrorMessage("No players matched.");
                 }
                 else
                 {
@@ -306,13 +301,15 @@ namespace MoreAdminCommands
                     if (player.isHeal)
                     {
                         args.Player.SendInfoMessage("You have activated auto-heal for " + ply.Name + ".");
-                        ply.SendInfoMessage(args.Player.Name + " has activated auto-heal on you");
+						if (!args.Silent)
+							ply.SendInfoMessage(args.Player.Name + " has activated auto-heal on you");
                     }
 
                     else
                     {
                         args.Player.SendInfoMessage("You have deactivated auto-heal for " + ply.Name + ".");
-                        ply.SendInfoMessage(args.Player.Name + " has deactivated auto-heal on you");
+						if (!args.Silent)
+							ply.SendInfoMessage(args.Player.Name + " has deactivated auto-heal on you");
                     }
                 }
             }
@@ -383,17 +380,12 @@ namespace MoreAdminCommands
 
                 if (playerList.Count > 1)
                 {
-                    List<string> foundPlayers = new List<string>();
-                    foreach (TSPlayer player in playerList)
-                    {
-                        foundPlayers.Add(player.Name);
-                    }
-                    TShock.Utils.SendMultipleMatchError(args.Player, foundPlayers);
+                    TShock.Utils.SendMultipleMatchError(args.Player, playerList.Select(p => p.Name));
                 }
 
                 else if (playerList.Count < 1)
                 {
-                    args.Player.SendErrorMessage(playerList.Count.ToString() + " players matched.");
+                    args.Player.SendErrorMessage("No players matched.");
                 }
 
                 else
@@ -468,10 +460,11 @@ namespace MoreAdminCommands
                 }
                 #endregion
 
-                TSPlayer.All.SendInfoMessage("Moon phase set to {0}.", phaseName);
+				if (!args.Silent)
+					TSPlayer.All.SendInfoMessage("Moon phase set to {0}.", phaseName);
             }
             else
-                args.Player.SendErrorMessage("Invalid usage! Proper usage: /moon [0-7]");
+				args.Player.SendErrorMessage("Invalid usage! Proper usage: {0}moon [0-7]", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
         }
         #endregion
 
@@ -488,7 +481,7 @@ namespace MoreAdminCommands
         public static void SpawnGroup(CommandArgs args)
         {
             if (args.Parameters.Count < 1)
-                args.Player.SendErrorMessage("Invalid syntax: /spawngroup <npcGroupName>");
+				args.Player.SendErrorMessage("Invalid syntax: {0}spawngroup <npcGroupName>", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
             else
             {
                 bool didspawn = false;
@@ -507,7 +500,7 @@ namespace MoreAdminCommands
         {
             if (args.Parameters.Count != 3)
             {
-                args.Player.SendErrorMessage("Invalid syntax! Proper syntax: /smp <mob name/id> <username> <amount>");
+				args.Player.SendErrorMessage("Invalid syntax! Proper syntax: {0}smp <mob name/id> <username> <amount>", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
             }
             else
             {
@@ -574,7 +567,7 @@ namespace MoreAdminCommands
         public static void SpawnByMe(CommandArgs args)
         {
             if (args.Parameters.Count < 1)
-                args.Player.SendErrorMessage("Invalid syntax. Try /sbm <mob name/ID> [amount]");
+				args.Player.SendErrorMessage("Invalid syntax. Try {0}sbm <mob name/ID> [amount]", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
             else
             {
                 int mobID;
@@ -656,7 +649,7 @@ namespace MoreAdminCommands
 
                 TSPlayer.All.SendInfoMessage(args.Player.Name + " has muted everyone.");
                 args.Player.SendSuccessMessage("You have muted everyone ({0} people) without the mute permission. " +
-                    "They will remain muted until you use /muteall again.", muteCount);
+					"They will remain muted until you use {1}muteall again.", muteCount, (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
 
             }
             else
@@ -706,7 +699,7 @@ namespace MoreAdminCommands
             {
                 if (!int.TryParse(args.Parameters[0], out nearby))
                 {
-                    args.Player.SendErrorMessage("Improper Syntax. Proper Syntax: /butchernear [distance]"); 
+					args.Player.SendErrorMessage("Improper Syntax. Proper Syntax: {0}butchernear [distance]", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier)); 
                     return;
                 }
             }
@@ -721,8 +714,9 @@ namespace MoreAdminCommands
                 }
             }
             args.Player.SendInfoMessage(string.Format("Killed {0} NPC(s) within a radius of {1} blocks.", killcount, nearby));
-            TSPlayer.All.SendInfoMessage(string.Format("{0} killed {1} NPC{2}", args.Player.Name, killcount,
-                killcount == 0 || killcount > 1 ? "s" : ""));
+			if (!args.Silent)
+				TSPlayer.All.SendInfoMessage(string.Format("{0} killed {1} NPC{2}", args.Player.Name, killcount,
+					killcount == 0 || killcount > 1 ? "s" : ""));
         }
         #endregion
 
@@ -738,6 +732,7 @@ namespace MoreAdminCommands
                     killcount++;
                 }
             }
+			if (!args.Silent)
             TSPlayer.All.SendInfoMessage(string.Format("{0} killed {1} NPC{2}.", args.Player.Name, killcount,
                 killcount == 0 || killcount > 1 ? "s" : ""));
         }
@@ -756,7 +751,8 @@ namespace MoreAdminCommands
                 }
             }
             args.Player.SendInfoMessage(string.Format("Killed {0} friendly NPCs.", killcount));
-            TSPlayer.All.SendInfoMessage(string.Format("{0} killed {1} friendly NPCs", args.Player.Name, killcount));
+			if (!args.Silent)
+				TSPlayer.All.SendInfoMessage(string.Format("{0} killed {1} friendly NPCs", args.Player.Name, killcount));
         }
         #endregion
 
@@ -766,13 +762,13 @@ namespace MoreAdminCommands
 
             if (args.Parameters.Count < 1)
             {
-                args.Player.SendMessage("Invalid syntax! Proper syntax: /butchernpc <npc name/id>", Color.Red);
+				args.Player.SendErrorMessage("Invalid syntax! Proper syntax: {0}butchernpc <npc name/id>", (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
                 return;
             }
 
             if (args.Parameters[0].Length == 0)
             {
-                args.Player.SendMessage("Missing npc name/id", Color.Red);
+                args.Player.SendErrorMessage("Missing npc name/id");
                 return;
             }
 
@@ -780,16 +776,12 @@ namespace MoreAdminCommands
 
             if (npcs.Count == 0)
             {
-                args.Player.SendMessage("Invalid npc type!", Color.Red);
+                args.Player.SendErrorMessage("Invalid npc type!");
             }
 
             else if (npcs.Count > 1)
             {
-                List<string> npcNames = new List<string>();
-                foreach (NPC npc in npcs)
-                    npcNames.Add(npc.name);
-
-                TShock.Utils.SendMultipleMatchError(args.Player, npcNames);
+                TShock.Utils.SendMultipleMatchError(args.Player, npcs.Select(p => p.name));
             }
 
             else
@@ -810,11 +802,12 @@ namespace MoreAdminCommands
                     }
 
                     args.Player.SendInfoMessage(string.Format("Killed {0} " + npc.name + "(s).", killcount));
-                    TSPlayer.All.SendInfoMessage(string.Format("{0} {1}(s) were killed", npc.name, killcount));
+					if (!args.Silent)
+						TSPlayer.All.SendInfoMessage(string.Format("{0} {1}(s) were killed", npc.name, killcount));
                 }
 
                 else
-                    args.Player.SendMessage("Invalid npc type!", Color.Red);
+                    args.Player.SendErrorMessage("Invalid npc type!");
             }
         }
         #endregion

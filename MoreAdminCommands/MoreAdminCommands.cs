@@ -10,7 +10,7 @@ using TShockAPI.DB;
 
 namespace MoreAdminCommands
 {
-    [ApiVersion(1, 16)]
+    [ApiVersion(1, 17)]
     public class MAC : TerrariaPlugin
     {
         public static MACconfig config { get; set; }
@@ -100,7 +100,7 @@ namespace MoreAdminCommands
             var table = new SqlTable("muteList",
                         new SqlColumn("Name", MySqlDbType.Text),
                         new SqlColumn("IP", MySqlDbType.Text));
-            SQLWriter.EnsureExists(table);
+            SQLWriter.EnsureTableStructure(table);
 
             #region Commands
             Commands.ChatCommands.Add(new Command("mac.kill", Cmds.KillAll, "killall", "kill*"));
@@ -147,7 +147,7 @@ namespace MoreAdminCommands
                 Mplayer.muteTime = -1;
                 foreach (TSPlayer tsplr in TShock.Players)
                 {
-                    if ((tsplr.Group.HasPermission("mute")) || (tsplr.Group.Name == "superadmin"))
+                    if ((tsplr.Group.HasPermission(Permissions.mute)) || (tsplr.Group.Name == "superadmin"))
                     {
                         tsplr.SendInfoMessage("A player that is on the perma-mute list is about to enter the server, and has been muted.");
                     }
@@ -203,34 +203,8 @@ namespace MoreAdminCommands
             }
             catch (Exception x)
             {
-                Log.ConsoleError(x.ToString());
+                TShock.Log.ConsoleError(x.ToString());
             }
-            #endregion
-
-            #region PlayerMana
-            //else if (e.MsgID == PacketTypes.PlayerMana)
-            //{
-
-            //    using (var data = new MemoryStream(e.Msg.readBuffer, e.Index, e.Length))
-            //    {
-            //        var reader = new BinaryReader(data);
-            //        var playerID = reader.ReadByte();
-            //        var Mana = reader.ReadInt16();
-            //        var MaxMana = reader.ReadInt16();
-
-            //        var player = Utils.GetPlayers((int)playerID);
-
-            //        if (player.isHeal)
-            //        {
-            //            Item star = TShockAPI.TShock.Utils.GetItemById(184);
-            //            if (Mana <= MaxMana / 2)
-            //            {
-            //                TShock.Players[playerID].GiveItem(star.type, star.name, star.width, star.height, star.maxStack);
-            //                player.TSPlayer.SendSuccessMessage("Your mana has been restored!!");
-            //            }
-            //        }
-            //    }
-            //}
             #endregion
 
             #region PlayerDamage
@@ -246,7 +220,7 @@ namespace MoreAdminCommands
                         var damage = reader.ReadInt16();
 
 
-                        if ((damage > config.maxDamage || damage < 0) && !TShock.Players[e.Msg.whoAmI].Group.HasPermission("ignorecheatdetection") && e.Msg.whoAmI != ply)
+                        if ((damage > config.maxDamage || damage < 0) && !TShock.Players[e.Msg.whoAmI].Group.HasPermission(Permissions.ignoredamagecap) && e.Msg.whoAmI != ply)
                         {
                             if (config.maxDamageBan)
                             {
@@ -262,15 +236,11 @@ namespace MoreAdminCommands
                             }
 
                         }
-                        //if (viewAll[ply])
-                        //{
-                        //    e.Handled = true;         //Should remove invincibility while /view'ing people
-                        //}
                     }
                 }
                 catch (Exception x)
                 {
-                    Log.ConsoleError(x.ToString());
+					TShock.Log.ConsoleError(x.ToString());
                 }
             }
             #endregion
@@ -285,7 +255,7 @@ namespace MoreAdminCommands
                         var reader = new BinaryReader(data);
                         var npcID = reader.ReadInt16();
                         var damage = reader.ReadInt16();
-                        if ((damage > config.maxDamage || damage < 0) && !TShock.Players[e.Msg.whoAmI].Group.HasPermission("ignorecheatdetection"))
+                        if ((damage > config.maxDamage || damage < 0) && !TShock.Players[e.Msg.whoAmI].Group.HasPermission(Permissions.ignoredamagecap))
                         {
 
                             if (config.maxDamageBan)
@@ -305,7 +275,7 @@ namespace MoreAdminCommands
                 }
                 catch (Exception x)
                 {
-                    Log.ConsoleError(x.ToString());
+					TShock.Log.ConsoleError(x.ToString());
                 }
             }
             #endregion
@@ -335,7 +305,7 @@ namespace MoreAdminCommands
                                             if ((!player.accessRed) && (TShock.Players[ply].Group.Name != "superadmin"))
                                             {
                                                 e.Handled = true;
-                                                TShock.Players[ply].SendMessage("This team is locked, use /teamunlock red [password] to access it.", Color.Red);
+												TShock.Players[ply].SendErrorMessage("This team is locked, use {0}teamunlock red [password] to access it.", TShock.Config.CommandSpecifier);
                                                 TShock.Players[ply].SetTeam(0);
                                             }
                                         }
@@ -347,7 +317,7 @@ namespace MoreAdminCommands
                                             if ((!player.accessGreen) && (TShock.Players[ply].Group.Name != "superadmin"))
                                             {
                                                 e.Handled = true;
-                                                TShock.Players[ply].SendMessage("This team is locked, use /teamunlock green [password] to access it.", Color.Red);
+												TShock.Players[ply].SendErrorMessage("This team is locked, use {0}teamunlock green [password] to access it.", TShock.Config.CommandSpecifier);
                                                 TShock.Players[ply].SetTeam(0);
                                             }
                                         }
@@ -359,7 +329,7 @@ namespace MoreAdminCommands
                                             if ((!player.accessBlue) && (TShock.Players[ply].Group.Name != "superadmin"))
                                             {
                                                 e.Handled = true;
-                                                TShock.Players[ply].SendMessage("This team is locked, use /teamunlock blue [password] to access it.", Color.Red);
+												TShock.Players[ply].SendErrorMessage("This team is locked, use {0}teamunlock blue [password] to access it.", TShock.Config.CommandSpecifier);
                                                 TShock.Players[ply].SetTeam(0);
                                             }
                                         }
@@ -371,7 +341,7 @@ namespace MoreAdminCommands
                                             if ((!player.accessYellow) && (TShock.Players[ply].Group.Name != "superadmin"))
                                             {
                                                 e.Handled = true;
-                                                TShock.Players[ply].SendMessage("This team is locked, use /teamunlock yellow [password] to access it.", Color.Red);
+                                                TShock.Players[ply].SendErrorMessage("This team is locked, use {0}teamunlock yellow [password] to access it.", TShock.Config.CommandSpecifier);
                                                 TShock.Players[ply].SetTeam(0);
                                             }
                                         }
@@ -380,7 +350,7 @@ namespace MoreAdminCommands
                             }
                             catch (Exception x)
                             {
-                                Log.ConsoleError(x.ToString());
+								TShock.Log.ConsoleError(x.ToString());
                             }
                         }
                     }
@@ -388,7 +358,7 @@ namespace MoreAdminCommands
             }
             catch (Exception x)
             {
-                Log.ConsoleError(x.ToString());
+				TShock.Log.ConsoleError(x.ToString());
             }
             #endregion
         }
@@ -451,43 +421,11 @@ namespace MoreAdminCommands
         public void OnChat(ServerChatEventArgs args)
         {
             var Mplayer = Utils.GetPlayers(args.Who);
-            //if (Utils.findIfPlayingCommand(args.Text) && !TShock.Players[args.Who].Group.HasPermission("ghostmode"))
-            //{
-            //    string sb = "";
-            //    foreach (TSPlayer player in TShock.Players)
-            //    {
-            //        var ply = Utils.GetPlayers(player.Index);
-            //        if (player != null && player.Active && !ply.isGhost)
-            //        {
-            //            if (sb.Length != 0)
-            //            {
-            //                sb += ", ";
-            //            }
-            //            sb += player.Name;
-            //        }
-            //    }
-            //    TShock.Players[args.Who].SendMessage(string.Format("Current players: {0}.", sb), 255, 240, 20);
-            //    args.Handled = true;
-            //}
 
-            //if ((muteAll) && (!TShock.Players[args.Who].Group.HasPermission("mute")) && args.Text.StartsWith("/me"))
-            //{
-            //    TShock.Players[args.Who].SendMessage("You cannot use the /me command, you are muted.", Color.Red);
-            //    args.Handled = true;
-            //    return;
-            //}
-
-            //if (args.Text.StartsWith("/tp "))
-            //{
-            //    string tempText = args.Text;
-            //    tempText = tempText.Remove(0, 1);
-            //    Utils.parseParameters(tempText);
-            //}
-
-            if (muteAll && !TShock.Players[args.Who].Group.HasPermission("mute"))
+            if (muteAll && !TShock.Players[args.Who].Group.HasPermission(Permissions.mute))
             {
                 var tsplr = TShock.Players[args.Who];
-                if (args.Text.StartsWith("/"))
+                if (args.Text.StartsWith(TShock.Config.CommandSpecifier) || args.Text.StartsWith(TShock.Config.CommandSilentSpecifier))
                 {
                     Commands.HandleCommand(tsplr, args.Text);
                 }

@@ -11,26 +11,12 @@ namespace MoreAdminCommands
         #region GetPlayers
         public static Mplayer GetPlayers(string name)
         {
-            foreach (Mplayer player in MAC.Players)
-            {
-                if (player.name.ToLower() == name.ToLower())
-                {
-                    return player;
-                }
-            }
-            return null;
+			return MAC.Players.Find(p => p.name == name);
         }
 
         public static Mplayer GetPlayers(int index)
         {
-            foreach (Mplayer player in MAC.Players)
-            {
-                if (player.Index == index)
-                {
-                    return player;
-                }
-            }
-            return null;
+			return MAC.Players.Find(p => p.Index == index);
         }
         #endregion
 
@@ -61,7 +47,7 @@ namespace MoreAdminCommands
         public static bool findIfPlayingCommand(string text)
         {
 
-            if (text.StartsWith("/playing"))
+            if (text.StartsWith("{0}playing".SFormat(TShock.Config.CommandSpecifier)) || text.StartsWith("{0}playing".SFormat(TShock.Config.CommandSilentSpecifier)))
             {
 
                 if (text.Length == 8)
@@ -72,7 +58,7 @@ namespace MoreAdminCommands
                     return false;
 
             }
-            else if (text.StartsWith("/who"))
+			else if (text.StartsWith("{0}who".SFormat(TShock.Config.CommandSpecifier)) || text.StartsWith("{0}who".SFormat(TShock.Config.CommandSilentSpecifier)))
             {
 
                 if (text.Length == 4)
@@ -93,7 +79,7 @@ namespace MoreAdminCommands
         public static bool findIfMeCommand(string text)
         {
 
-            if (text.StartsWith("/me"))
+			if (text.StartsWith("{0}me".SFormat(TShock.Config.CommandSpecifier)) || text.StartsWith("{0}me".SFormat(TShock.Config.CommandSilentSpecifier)))
             {
 
                 if (text.Length == 3)
