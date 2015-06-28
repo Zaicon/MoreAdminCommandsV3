@@ -640,14 +640,14 @@ namespace MoreAdminCommands
                     MAC.config.muteAllReason = MAC.config.defaultMuteAllReason;
 
                 foreach (TSPlayer player in TShock.Players)
-                    if (player != null && player.Active && player.ConnectionAlive &&
-                        !player.mute && !player.Group.HasPermission(Permissions.mute))
+                    if (player != null && !player.Group.HasPermission(Permissions.mute))
                     {
                         player.mute = true;
                         muteCount++;
                     }
 
-                TSPlayer.All.SendInfoMessage(args.Player.Name + " has muted everyone.");
+                if (!args.Silent)
+                    TSPlayer.All.SendInfoMessage(args.Player.Name + " has muted everyone.");
                 args.Player.SendSuccessMessage("You have muted everyone ({0} people) without the mute permission. " +
 					"They will remain muted until you use {1}muteall again.", muteCount, (args.Silent ? TShock.Config.CommandSilentSpecifier : TShock.Config.CommandSpecifier));
 
@@ -655,11 +655,10 @@ namespace MoreAdminCommands
             else
             {
                 foreach (TSPlayer player in TShock.Players)
-                    if (player.mute)
+                    if (player != null && player.mute)
                         player.mute = false;
 
-                TSPlayer.All.SendInfoMessage(args.Player.Name + 
-                    " has unmuted everyone, except perhaps those muted before everyone was muted.");
+                TSPlayer.All.SendInfoMessage("{0} has unmuted everyone.", args.Player.Name);
             }
         }
         #endregion
