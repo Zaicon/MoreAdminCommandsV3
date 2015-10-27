@@ -1,4 +1,8 @@
-﻿using MySql.Data.MySqlClient;
+﻿/*
+ * Original plugin by DaGamesta.
+ */
+
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +14,7 @@ using TShockAPI.DB;
 
 namespace MoreAdminCommands
 {
-    [ApiVersion(1, 20)]
+    [ApiVersion(1, 22)]
     public class MAC : TerrariaPlugin
     {
         public static MACconfig config { get; set; }
@@ -38,7 +42,7 @@ namespace MoreAdminCommands
 
         public override string Author
         {
-            get { return "DaGamesta, Maintained by WhiteX"; }
+            get { return "Zaicon"; }
         }
 
         public override string Description
