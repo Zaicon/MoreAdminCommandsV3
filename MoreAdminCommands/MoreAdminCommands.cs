@@ -392,7 +392,7 @@ namespace MoreAdminCommands
 
                         if (plrinfo.Count > 10)
                         {
-                            while (plrinfo.Count > 0 && (DateTime.Now - plrinfo[0]).TotalSeconds > 5)
+                            while (plrinfo.Count > 0 && (DateTime.Now - plrinfo[0]).TotalSeconds > 20)
                             {
                                 plrinfo.RemoveAt(0);
                             }
