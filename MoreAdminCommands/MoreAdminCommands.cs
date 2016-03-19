@@ -378,13 +378,8 @@ namespace MoreAdminCommands
                     {
                         var reader = new BinaryReader(data);
                         var itemid = reader.ReadInt16();
-                        var posx = reader.ReadSingle();
-                        var posy = reader.ReadSingle();
-                        var velox = reader.ReadSingle();
-                        var veloy = reader.ReadSingle();
-                        var stacks = reader.ReadInt16();
-                        var prefix = reader.ReadByte();
-                        var netid = reader.ReadInt16();
+                        if (itemid < 400)
+                            return;
                     }
 
                     List<DateTime> plrinfo = new List<DateTime>();
