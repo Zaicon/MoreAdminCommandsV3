@@ -64,7 +64,6 @@ namespace MoreAdminCommands
 
             Hook.GameInitialize.Register(this, OnInitialize);
             Hook.ServerChat.Register(this, OnChat);
-            Hook.NetSendData.Register(this, OnSendData);
             Hook.NetGreetPlayer.Register(this, OnJoin);
             Hook.ServerLeave.Register(this, OnLeave);
             Hook.NetGetData.Register(this, OnGetData);
@@ -80,7 +79,6 @@ namespace MoreAdminCommands
 
                 Hook.GameInitialize.Deregister(this, OnInitialize);
                 Hook.ServerChat.Deregister(this, OnChat);
-                Hook.NetSendData.Deregister(this, OnSendData);
                 Hook.NetGreetPlayer.Deregister(this, OnJoin);
                 Hook.ServerLeave.Deregister(this, OnLeave);
                 Hook.NetGetData.Deregister(this, OnGetData);
@@ -125,7 +123,6 @@ namespace MoreAdminCommands
             Commands.ChatCommands.Add(new Command("mac.moon", Cmds.MoonPhase, "moon"));
             Commands.ChatCommands.Add(new Command("mac.give", Cmds.ForceGive, "forcegive"));
             Commands.ChatCommands.Add(new Command("mac.view", Cmds.ViewAll, "view"));
-            Commands.ChatCommands.Add(new Command("mac.ghost", Cmds.Ghost, "ghost"));
             Commands.ChatCommands.Add(new Command("mac.reload", Cmds.ReloadMore, "reloadmore"));
             Commands.ChatCommands.Add(new Command("mac.freeze", Cmds.FreezeTime, "freezetime", "ft"));
             Commands.ChatCommands.Add(new Command(Cmds.TeamUnlock, "teamunlock"));
@@ -414,59 +411,6 @@ namespace MoreAdminCommands
 
                 }
             }
-        }
-        #endregion
-
-        #region SendData
-        public void OnSendData(SendDataEventArgs e)
-        {
-            try
-            {
-                List<int> ghostIDs = new List<int>();
-                foreach (Mplayer player in Players)
-                {
-                    if (player.isGhost)
-                        ghostIDs.Add(player.Index);
-                }
-
-                switch (e.MsgId)
-                {
-                    case PacketTypes.DoorUse:
-                    case PacketTypes.EffectHeal:
-                    case PacketTypes.EffectMana:
-                    case PacketTypes.PlayerDamage:
-                    case PacketTypes.Zones:
-                    case PacketTypes.PlayerAnimation:
-                    case PacketTypes.PlayerTeam:
-                    case PacketTypes.PlayerSpawn:
-                        {
-                            if ((ghostIDs.Contains(e.number)) && (Utils.GetPlayers(e.number).isGhost))
-                            {
-                                e.Handled = true;
-                            }
-                        }
-                        break;
-
-                    case PacketTypes.ProjectileNew:
-                    case PacketTypes.ProjectileDestroy:
-                        {
-                            if ((ghostIDs.Contains(e.ignoreClient)) && (Utils.GetPlayers(e.ignoreClient).isGhost))
-                                e.Handled = true;
-                        }
-                        break;
-
-                    default: break;
-                }
-
-                if ((e.number >= 0) && (e.number <= 255) && (Utils.GetPlayers(e.number).isGhost))
-                {
-                    if ((!cansend) && (e.MsgId == PacketTypes.PlayerUpdate))
-                    {
-                        e.Handled = true;
-                    }
-                }
-            }
-            catch (Exception) { }
         }
         #endregion
 

@@ -7,7 +7,6 @@ namespace MoreAdminCommands
     {
         public int Index;
         public bool isHeal;
-        public bool isGhost;
         public bool muted;
         public int muteTime;
         public bool viewAll;
