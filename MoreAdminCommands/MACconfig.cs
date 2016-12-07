@@ -95,7 +95,8 @@ namespace MoreAdminCommands
                 new NPCdetails("clothier", 1), new NPCdetails("mechanic", 1), new NPCdetails("goblin tinkerer", 1),
                 new NPCdetails("wizard", 1), new NPCdetails("steampunker", 1), new NPCdetails("dye trader", 1),
                 new NPCdetails("santa claus", 1), new NPCdetails("party girl", 1), new NPCdetails("painter", 1),
-                new NPCdetails("witch doctor", 1), new NPCdetails("pirate", 1), new NPCdetails("cyborg", 1)
+                new NPCdetails("witch doctor", 1), new NPCdetails("pirate", 1), new NPCdetails("cyborg", 1),
+                new NPCdetails("tavernkeep", 1)
             }));
             SpawnGroupNPCs.Add(new NPCset(NPCs_Town));
 
