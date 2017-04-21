@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using TShockAPI;
 
 namespace MoreAdminCommands
@@ -227,7 +229,7 @@ namespace MoreAdminCommands
             }
             else if (items.Count > 1)
             {
-				TShock.Utils.SendMultipleMatchError(args.Player, items.Select(p => p.name));
+				TShock.Utils.SendMultipleMatchError(args.Player, items.Select(p => p.Name));
             }
             else
             {
@@ -248,10 +250,10 @@ namespace MoreAdminCommands
                         var plr = players[0];
                         if (itemAmount == 0 || itemAmount > item.maxStack)
                             itemAmount = item.maxStack;
-                        if (plr.GiveItemCheck(item.type, item.name, item.width, item.height, itemAmount, prefix))
+                        if (plr.GiveItemCheck(item.type, item.Name, item.width, item.height, itemAmount, prefix))
                         {
-                            args.Player.SendSuccessMessage("Gave {0} {1} {2}(s).", plr.Name, itemAmount, item.name);
-                            plr.SendSuccessMessage("{0} gave you {1} {2}(s).", args.Player.Name, itemAmount, item.name);
+                            args.Player.SendSuccessMessage("Gave {0} {1} {2}(s).", plr.Name, itemAmount, item.Name);
+                            plr.SendSuccessMessage("{0} gave you {1} {2}(s).", args.Player.Name, itemAmount, item.Name);
                         }
                         else
                         {
@@ -431,15 +433,15 @@ namespace MoreAdminCommands
                             int amount;
                             if (int.TryParse(args.Parameters[2], out amount))
                             {
-                                TSPlayer.Server.SpawnNPC(npc.type, npc.name, amount, player.TileX, player.TileY, 50, 20);
+                                TSPlayer.Server.SpawnNPC(npc.type, npc.FullName, amount, player.TileX, player.TileY, 50, 20);
                                 TSPlayer.All.SendSuccessMessage("{0} was spawned {1} time{2} near {3}",
-                                    npc.name, amount, amount > 1 || amount == 0 ? "s" : "", player.Name);
+                                    npc.FullName, amount, amount > 1 || amount == 0 ? "s" : "", player.Name);
                             }
                             else
                             {
-                                TSPlayer.Server.SpawnNPC(npc.type, npc.name, 1, player.TileX, player.TileY, 50, 20);
+                                TSPlayer.Server.SpawnNPC(npc.type, npc.FullName, 1, player.TileX, player.TileY, 50, 20);
                                 TSPlayer.All.SendSuccessMessage("{0} was spawned 1 time near {3}",
-                                     npc.name, player.Name);
+                                     npc.FullName, player.Name);
                             }
                         }
                         else
@@ -454,15 +456,15 @@ namespace MoreAdminCommands
                             int amount;
                             if (int.TryParse(args.Parameters[2], out amount))
                             {
-                                TSPlayer.Server.SpawnNPC(npc.type, npc.name, amount, player.TileX, player.TileY, 50, 20);
+                                TSPlayer.Server.SpawnNPC(npc.type, npc.FullName, amount, player.TileX, player.TileY, 50, 20);
                                 TSPlayer.All.SendSuccessMessage("{0} was spawned {1} time{2} near {3}",
-                                    npc.name, amount, amount > 1 || amount == 0 ? "s" : "", player.Name);
+                                    npc.FullName, amount, amount > 1 || amount == 0 ? "s" : "", player.Name);
                             }
                             else
                             {
-                                TSPlayer.Server.SpawnNPC(npc.type, npc.name, 1, player.TileX, player.TileY, 50, 20);
+                                TSPlayer.Server.SpawnNPC(npc.type, npc.FullName, 1, player.TileX, player.TileY, 50, 20);
                                 TSPlayer.All.SendSuccessMessage("{0} was spawned 1 time near {1}",
-                                     npc.name, player.Name);
+                                     npc.FullName, player.Name);
                             }
                         }
                         else
@@ -492,16 +494,16 @@ namespace MoreAdminCommands
                         int amount;
                         if (int.TryParse(args.Parameters[1], out amount))
                         {
-                            TSPlayer.Server.SpawnNPC(npc.type, npc.name, amount, args.Player.TileX,
+                            TSPlayer.Server.SpawnNPC(npc.type, npc.FullName, amount, args.Player.TileX,
                                 args.Player.TileY, 2, 5);
                             TSPlayer.All.SendSuccessMessage("Spawned {0} {1}{2}",
-                                     amount, npc.name, amount > 1 || amount == 0 ? "'s" : "");
+                                     amount, npc.FullName, amount > 1 || amount == 0 ? "'s" : "");
                         }
                         else
                         {
-                            TSPlayer.Server.SpawnNPC(npc.type, npc.name, 1, args.Player.TileX,
+                            TSPlayer.Server.SpawnNPC(npc.type, npc.FullName, 1, args.Player.TileX,
                                 args.Player.TileY, 2, 5);
-                            TSPlayer.All.SendSuccessMessage("Spawned 1 {0}", npc.name);
+                            TSPlayer.All.SendSuccessMessage("Spawned 1 {0}", npc.FullName);
                         }
                     }
                     else
@@ -516,16 +518,16 @@ namespace MoreAdminCommands
                         int amount;
                         if (int.TryParse(args.Parameters[1], out amount))
                         {
-                            TSPlayer.Server.SpawnNPC(npc.type, npc.name, amount, args.Player.TileX,
+                            TSPlayer.Server.SpawnNPC(npc.type, npc.FullName, amount, args.Player.TileX,
                                 args.Player.TileY, 2, 5);
                             TSPlayer.All.SendSuccessMessage("Spawned {0} {1}{2}",
-                                     amount, npc.name, amount > 1 || amount == 0 ? "'s" : "");
+                                     amount, npc.FullName, amount > 1 || amount == 0 ? "'s" : "");
                         }
                         else
                         {
-                            TSPlayer.Server.SpawnNPC(npc.type, npc.name, 1, args.Player.TileX,
+                            TSPlayer.Server.SpawnNPC(npc.type, npc.FullName, 1, args.Player.TileX,
                                 args.Player.TileY, 2, 5);
-                            TSPlayer.All.SendSuccessMessage("Spawned 1 {0}", npc.name);
+                            TSPlayer.All.SendSuccessMessage("Spawned 1 {0}", npc.FullName);
                         }
                     }
                     else
@@ -594,7 +596,7 @@ namespace MoreAdminCommands
                 args.Player.SetTeam(Main.player[args.Player.Index].team);
                 foreach (TSPlayer tply in TShock.Players)
                 {
-                    NetMessage.SendData((int)PacketTypes.PlayerTeam, args.Player.Index, -1, "", tply.Index);
+                    NetMessage.SendData((int)PacketTypes.PlayerTeam, args.Player.Index, -1, NetworkText.Empty, tply.Index);
                 }
                 args.Player.SendInfoMessage("View All mode has been turned off.");
             }
@@ -692,7 +694,7 @@ namespace MoreAdminCommands
 
             else if (npcs.Count > 1)
             {
-                TShock.Utils.SendMultipleMatchError(args.Player, npcs.Select(p => p.name));
+                TShock.Utils.SendMultipleMatchError(args.Player, npcs.Select(p => p.FullName));
             }
 
             else
@@ -712,9 +714,9 @@ namespace MoreAdminCommands
                         }
                     }
 
-                    args.Player.SendInfoMessage(string.Format("Killed {0} " + npc.name + "(s).", killcount));
+                    args.Player.SendInfoMessage(string.Format("Killed {0} " + npc.FullName + "(s).", killcount));
 					if (!args.Silent)
-						TSPlayer.All.SendInfoMessage(string.Format("{0} {1}(s) were killed", npc.name, killcount));
+						TSPlayer.All.SendInfoMessage(string.Format("{0} {1}(s) were killed", npc.FullName, killcount));
                 }
 
                 else

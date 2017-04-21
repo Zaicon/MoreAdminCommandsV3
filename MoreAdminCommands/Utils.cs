@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Xna.Framework;
 using Terraria;
 using TShockAPI;
 
@@ -218,7 +219,7 @@ namespace MoreAdminCommands
                         {
                             NPC npc = TShock.Utils.GetNPCByIdOrName(details.name)[0];
 
-                            TSPlayer.Server.SpawnNPC(npc.type, npc.name, details.amount, player.TileX, player.TileY, 50, 20);
+                            TSPlayer.Server.SpawnNPC(npc.type, npc.FullName, details.amount, player.TileX, player.TileY, 50, 20);
                         }
                         didspawn = true;
                     }

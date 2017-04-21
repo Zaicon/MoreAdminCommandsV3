@@ -14,7 +14,7 @@ using TShockAPI.DB;
 
 namespace MoreAdminCommands
 {
-    [ApiVersion(1, 25)]
+    [ApiVersion(2, 1)]
     public class MAC : TerrariaPlugin
     {
         public static MACconfig config { get; set; }

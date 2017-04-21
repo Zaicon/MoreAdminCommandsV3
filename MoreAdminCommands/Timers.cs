@@ -5,6 +5,7 @@ using System.Text;
 using System.Timers;
 
 using Terraria;
+using Terraria.Localization;
 using TShockAPI;
 
 namespace MoreAdminCommands
@@ -105,7 +106,7 @@ namespace MoreAdminCommands
                         {
                             int prevTeam = Main.player[tply.Index].team;
                             Main.player[tply.Index].team = MAC.viewAllTeam;
-                            NetMessage.SendData((int)PacketTypes.PlayerTeam, player.Index, -1, "", tply.Index);
+                            NetMessage.SendData((int)PacketTypes.PlayerTeam, player.Index, -1, NetworkText.Empty, tply.Index);
                             Main.player[tply.Index].team = prevTeam;
                         }
                         catch { }
