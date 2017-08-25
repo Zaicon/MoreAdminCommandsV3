@@ -27,8 +27,6 @@ namespace MoreAdminCommands
         public static SqlTableEditor SQLEditor;
         public static SqlTableCreator SQLWriter;
 
-        private Dictionary<int, List<DateTime>> itemspam;
-
         public static double timeToFreezeAt = 1000;
         public static int viewAllTeam = 4;
 
@@ -129,8 +127,6 @@ namespace MoreAdminCommands
             #endregion
 
             Utils.SetUpConfig();
-
-            itemspam = new Dictionary<int, List<DateTime>>();
 
             updateTimers.initializeTimers();
         }
@@ -366,51 +362,6 @@ namespace MoreAdminCommands
 				TShock.Log.ConsoleError(x.ToString());
             }
             #endregion
-
-            if (e.MsgID == PacketTypes.ItemDrop)
-            {
-                try
-                {
-                    using (var data = new MemoryStream(e.Msg.readBuffer, e.Index, e.Length))
-                    {
-                        var reader = new BinaryReader(data);
-                        var itemid = reader.ReadInt16();
-                        if (itemid < 400)
-                            return;
-                    }
-
-                    List<DateTime> plrinfo = new List<DateTime>();
-                    int index = e.Msg.whoAmI;
-
-                    if (itemspam.ContainsKey(index))
-                    {
-                        plrinfo = itemspam[index];
-                        plrinfo.Add(DateTime.Now);
-
-                        if (plrinfo.Count > 10)
-                        {
-                            while (plrinfo.Count > 0 && (DateTime.Now - plrinfo[0]).TotalSeconds > 20)
-                            {
-                                plrinfo.RemoveAt(0);
-                            }
-                            if (plrinfo.Count > 10)
-                            {
-                                TShock.Players[index].SendData(PacketTypes.Status, "Do not spam items on this server!");
-                                e.Handled = true;
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        itemspam.Add(index, new List<DateTime>() { DateTime.Now });
-                    }
-                }
-                catch
-                {
-
-                }
-            }
         }
         #endregion
 
